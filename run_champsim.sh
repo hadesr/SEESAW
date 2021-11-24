@@ -1,19 +1,17 @@
 #!/bin/bash
 
-if [ "$#" -lt 5 ]; then
+if [ "$#" -lt 4 ]; then
     echo "Illegal number of parameters"
-    echo "Usage: ./run_champsim.sh [BINARY] [N_WARM] [N_SIM] [TRACE_DIR_IN_TRACER] [TRACE] [OPTION]"
+    echo "Usage: ./run_champsim.sh [BINARY] [N_WARM] [N_SIM] [TRACE] [OPTION]"
     exit 1
 fi
 
-#Neelu: TRACE_DIR modified to be provided as a cmd line arg by me.
-
-TRACE_DIR=${4}
+TRACE_DIR=../traces/
 BINARY=${1}
 N_WARM=${2}
 N_SIM=${3}
-TRACE=${5}
-OPTION=${6}
+TRACE=${4}
+OPTION=${5}
 
 # Sanity check
 if [ -z $TRACE_DIR ] || [ ! -d "$TRACE_DIR" ] ; then
