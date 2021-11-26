@@ -1389,6 +1389,8 @@ void CACHE::handle_read() {
 
   // handle read
   static int counter;
+  int checkway = -1;
+  int way;
   for (uint32_t i = 0; i < MAX_READ; i++) {
 
     if (cache_type == IS_L1I || cache_type == IS_L1D) {
@@ -1411,7 +1413,37 @@ void CACHE::handle_read() {
 
       // access cache
       uint32_t set = get_set(RQ.entry[index].address);
-      int way = check_hit(&RQ.entry[index]);
+      
+      if(cache_type == IS_L1D){
+       uint64_t d= RQ.entry[index].full_addr;
+      if((d>>SP_OFFSET)== TFT[(d>>SP_OFFSET)&TFTHASH]){
+
+        int partition_bit=(d&(1<<12))>>12;
+        for (uint32_t way = 0; way < NUM_WAY/2; way++) {
+    if (block[set][way].valid && (block[set][way+partition_bit*4].tag == RQ.entry[index].full_physical_address >> LOG2_BLOCK_SIZE)) {
+      checkway=way+partition_bit*4;
+      DP(if (warmup_complete[packet->cpu]) {
+        cout << "[" << NAME << "] " << __func__
+             << " instr_id: " << packet->instr_id << " type: " << +packet->type
+             << hex << " addr: " << packet->address;
+        cout << " full_addr: " << packet->full_addr
+             << " tag: " << block[set][way+partition_bit*4].tag
+             << " data: " << block[set][way+partition_bit*4].data << dec;
+        cout << " set: " << set << " way: " << way+partition_bit*4
+             << " lru: " << block[set][way+partition_bit*4].lru;
+        cout << " event: " << packet->event_cycle
+             << " cycle: " << current_core_cycle[cpu] << endl;
+      });
+
+      break;
+    }
+  }
+      }
+      }
+      else
+       checkway = check_hit(&RQ.entry[index]);
+
+      way = checkway;
 
       if (way >= 0) { // read hit
 
