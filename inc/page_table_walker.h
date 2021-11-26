@@ -1,16 +1,16 @@
 #include "cache.h"
 
-#define PSCL5_SET 1
-#define PSCL5_WAY 2
+// #define PSCL5_SET 1
+// #define PSCL5_WAY 2
 
 #define PSCL4_SET 1
-#define PSCL4_WAY 4
+#define PSCL4_WAY 2
 
-#define PSCL3_SET 2
+#define PSCL3_SET 1
 #define PSCL3_WAY 4
 
-#define PSCL2_SET 4
-#define PSCL2_WAY 8
+#define PSCL2_SET 2
+#define PSCL2_WAY 4
 
 #define PTW_RQ_SIZE 16 // Should be greater than or equal to STLB MSHR Size
 #define PTW_WQ_SIZE 4
@@ -25,10 +25,10 @@
 #define IS_PTL2 2
 #define IS_PTL3 3
 #define IS_PTL4 4
-#define IS_PTL5 5
+// #define IS_PTL5 5
 
-// Virtual Address: 57 bit (9+9+9+9+9+12), rest MSB bits will be used to
-// generate a unique VA per CPU. PTL5->PTL4->PTL3->PTL2->PTL1->PFN
+// Virtual Address: 57 bit (9+9+9+9+21), rest MSB bits will be used to
+// generate a unique VA per CPU. PTL4->PTL3->PTL2->PTL1->PFN
 
 class PAGE_TABLE_PAGE {
 public:
@@ -72,16 +72,16 @@ public:
       MSHR{NAME + "_MSHR", PTW_MSHR_SIZE},    // MSHR
       PQ{NAME + "_PQ", PTW_PQ_SIZE};          // PQ
 
-  CACHE PSCL5{"PSCL5", PSCL5_SET, PSCL5_WAY, PSCL5_SET *PSCL5_WAY,
-              0,       0,         0,         1}, // Translation from L5->L4
-      PSCL4{"PSCL4", PSCL4_SET, PSCL4_WAY, PSCL4_SET *PSCL4_WAY,
-            0,       0,         0,         1}, // Translation from L5->L3
+  // CACHE PSCL5{"PSCL5", PSCL5_SET, PSCL5_WAY, PSCL5_SET *PSCL5_WAY,
+  //             0,       0,         0,         1}, // Translation from L5->L4
+  CACHE PSCL4{"PSCL4", PSCL4_SET, PSCL4_WAY, PSCL4_SET *PSCL4_WAY,
+            0,       0,         0,         1}, // Translation from L4->L3
       PSCL3{"PSCL3", PSCL3_SET, PSCL3_WAY, PSCL3_SET *PSCL3_WAY,
-            0,       0,         0,         1}, // Translation from L5->L2
+            0,       0,         0,         1}, // Translation from L4->L2
       PSCL2{"PSCL2", PSCL2_SET, PSCL2_WAY, PSCL2_SET *PSCL2_WAY,
-            0,       0,         0,         1}; // Translation from L5->L1
+            0,       0,         0,         1}; // Translation from L4->L1
 
-  PAGE_TABLE_PAGE *L5; // CR3 register points to the base of this page.
+  PAGE_TABLE_PAGE *L4; // CR3 register points to the base of this page.
   uint64_t CR3_addr;   // This address will not have page offset bits.
   bool CR3_set;
 
@@ -89,15 +89,15 @@ public:
   PAGE_TABLE_WALKER(string v1) : NAME(v1) {
 
     assert(LOG2_PAGE_SIZE ==
-           12); //@Vishal: Translation pages are also using this variable, dont
+           21); //@Vishal: Translation pages are also using this variable, dont
                 //change it, or keep it 12 if changing.
 
     CR3_addr = UINT64_MAX;
     CR3_set = false;
-    L5 = NULL;
+    L4 = NULL;
     rq_full = 0;
 
-    PSCL5.fill_level = 0;
+    // PSCL5.fill_level = 0;
     PSCL4.fill_level = 0;
     PSCL3.fill_level = 0;
     PSCL2.fill_level = 0;
@@ -105,8 +105,8 @@ public:
 
   // destructor
   /*~PAGE_TABLE_WALKER() {
-      if(L5 != NULL)
-          delete L5;
+      if(L4 != NULL)
+          delete L4;
   };*/
 
   // functions

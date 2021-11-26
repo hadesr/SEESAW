@@ -284,7 +284,7 @@ void print_roi_stats(uint32_t cpu, CACHE *cache) {
          << " DROPPED PREFETCHES: " << cache->pf_dropped << endl;
   }
 
-  if (cache->cache_type == IS_PSCL5 || cache->cache_type == IS_PSCL4 ||
+  if (cache->cache_type == IS_PSCL4 ||
       cache->cache_type == IS_PSCL3 || cache->cache_type == IS_PSCL2) {
   } else {
     cout << cache->NAME;
@@ -628,7 +628,7 @@ void finish_warmup() {
     reset_cache_stats(i, &ooo_cpu[i].BTB);
 
     //@Vishal: Reset MMU cache stats
-    reset_cache_stats(i, &ooo_cpu[i].PTW.PSCL5);
+    // reset_cache_stats(i, &ooo_cpu[i].PTW.PSCL5);
     reset_cache_stats(i, &ooo_cpu[i].PTW.PSCL4);
     reset_cache_stats(i, &ooo_cpu[i].PTW.PSCL3);
     reset_cache_stats(i, &ooo_cpu[i].PTW.PSCL2);
@@ -1212,7 +1212,7 @@ int main(int argc, char **argv) {
     ooo_cpu[i].PTW.upper_level_icache[i] = &ooo_cpu[i].STLB;
     ooo_cpu[i].PTW.upper_level_dcache[i] = &ooo_cpu[i].STLB;
 
-    ooo_cpu[i].PTW.PSCL5.cache_type = IS_PSCL5;
+    // ooo_cpu[i].PTW.PSCL5.cache_type = IS_PSCL5;
     ooo_cpu[i].PTW.PSCL4.cache_type = IS_PSCL4;
     ooo_cpu[i].PTW.PSCL3.cache_type = IS_PSCL3;
     ooo_cpu[i].PTW.PSCL2.cache_type = IS_PSCL2;
@@ -1530,7 +1530,7 @@ int main(int argc, char **argv) {
         record_roi_stats(i, &ooo_cpu[i].BTB);
 
         // MMU Caches
-        record_roi_stats(i, &ooo_cpu[i].PTW.PSCL5);
+        // record_roi_stats(i, &ooo_cpu[i].PTW.PSCL5);
         record_roi_stats(i, &ooo_cpu[i].PTW.PSCL4);
         record_roi_stats(i, &ooo_cpu[i].PTW.PSCL3);
         record_roi_stats(i, &ooo_cpu[i].PTW.PSCL2);
@@ -1579,7 +1579,7 @@ int main(int argc, char **argv) {
       print_sim_stats(i, &ooo_cpu[i].L2C);
 
       // MMU Caches
-      print_sim_stats(i, &ooo_cpu[i].PTW.PSCL5);
+      // print_sim_stats(i, &ooo_cpu[i].PTW.PSCL5);
       print_sim_stats(i, &ooo_cpu[i].PTW.PSCL4);
       print_sim_stats(i, &ooo_cpu[i].PTW.PSCL3);
       print_sim_stats(i, &ooo_cpu[i].PTW.PSCL2);
@@ -1634,7 +1634,7 @@ int main(int argc, char **argv) {
     print_roi_stats(i, &ooo_cpu[i].STLB);
 
     // MMU caches
-    print_roi_stats(i, &ooo_cpu[i].PTW.PSCL5);
+    // print_roi_stats(i, &ooo_cpu[i].PTW.PSCL5);
     print_roi_stats(i, &ooo_cpu[i].PTW.PSCL4);
     print_roi_stats(i, &ooo_cpu[i].PTW.PSCL3);
     print_roi_stats(i, &ooo_cpu[i].PTW.PSCL2);

@@ -29,7 +29,7 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 #define IS_BTB 12
 
 // MMU CACHE TYPE
-#define IS_PSCL5 8
+// #define IS_PSCL5 8
 #define IS_PSCL4 9
 #define IS_PSCL3 10
 #define IS_PSCL2 11
@@ -87,7 +87,7 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 
 // L1 DATA CACHE
 #define L1D_SET 64
-#define L1D_WAY 12
+#define L1D_WAY 8
 #define L1D_RQ_SIZE 64
 #define L1D_WQ_SIZE 64
 #define L1D_PQ_SIZE 16
@@ -114,6 +114,8 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 
 class CACHE : public MEMORY {
 public:
+  uint64_t TFT[16];
+
   uint32_t cpu;
   const string NAME;
   const uint32_t NUM_SET, NUM_WAY, NUM_LINE, WQ_SIZE, RQ_SIZE, PQ_SIZE,

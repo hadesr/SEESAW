@@ -18,12 +18,12 @@ void PAGE_TABLE_WALKER::operate() {
       int index = MSHR.head;
 
       assert(CR3_addr != UINT64_MAX);
-      PAGE_TABLE_PAGE *curr_page = L5; // Start wth the L5 page
+      PAGE_TABLE_PAGE *curr_page = L4; // Start wth the L4 page
       uint64_t next_level_base_addr = UINT64_MAX;
       bool page_fault = false;
       bool dropped_prefetch_request = false;
 
-      for (int i = 5; i > MSHR.entry[index].translation_level; i--) {
+      for (int i = 4; i > MSHR.entry[index].translation_level; i--) {
         uint64_t offset =
             get_offset(MSHR.entry[index].full_virtual_address,
                        i); // Get offset according to page table level
@@ -76,9 +76,9 @@ void PAGE_TABLE_WALKER::operate() {
       if (MSHR.entry[index].translation_level == 0 &&
           !dropped_prefetch_request) // If translation complete
       {
-        curr_page = L5;
+        curr_page = L4;
         next_level_base_addr = UINT64_MAX;
-        for (int i = 5; i > 1; i--) // Walk the page table and fill MMU caches
+        for (int i = 4; i > 1; i--) // Walk the page table and fill MMU caches
         {
           uint64_t offset =
               get_offset(MSHR.entry[index].full_virtual_address, i);
@@ -91,10 +91,10 @@ void PAGE_TABLE_WALKER::operate() {
               0) // Check which translation levels needs to filled
           {
             switch (i) {
-            case 5:
-              fill_mmu_cache(PSCL5, next_level_base_addr, &MSHR.entry[index],
-                             IS_PSCL5);
-              break;
+            // case 5:
+            //   fill_mmu_cache(PSCL5, next_level_base_addr, &MSHR.entry[index],
+            //                  IS_PSCL5);
+            //   break;
             case 4:
               fill_mmu_cache(PSCL4, next_level_base_addr, &MSHR.entry[index],
                              IS_PSCL4);
@@ -282,9 +282,9 @@ void PAGE_TABLE_WALKER::operate() {
              0xf000000f); // Page table is stored at this address
       assert(RQ.entry[index].full_virtual_address != 0);
 
-      uint64_t address_pscl5 =
-          check_hit(PSCL5, get_index(RQ.entry[index].full_addr, IS_PSCL5),
-                    RQ.entry[index].type);
+      // uint64_t address_pscl5 =
+      //     check_hit(PSCL5, get_index(RQ.entry[index].full_addr, IS_PSCL5),
+      //               RQ.entry[index].type);
       uint64_t address_pscl4 =
           check_hit(PSCL4, get_index(RQ.entry[index].full_addr, IS_PSCL4),
                     RQ.entry[index].type);
@@ -336,21 +336,21 @@ void PAGE_TABLE_WALKER::operate() {
         next_address = address_pscl4 << LOG2_PAGE_SIZE |
                        (get_offset(RQ.entry[index].full_addr, IS_PTL3) << 3);
         packet.translation_level = 3;
-      } else if (address_pscl5 != UINT64_MAX) {
-        next_address = address_pscl5 << LOG2_PAGE_SIZE |
-                       (get_offset(RQ.entry[index].full_addr, IS_PTL4) << 3);
-        packet.translation_level = 4;
+      // } else if (address_pscl5 != UINT64_MAX) {
+      //   next_address = address_pscl5 << LOG2_PAGE_SIZE |
+      //                  (get_offset(RQ.entry[index].full_addr, IS_PTL4) << 3);
+      //   packet.translation_level = 4;
       } else {
         if (CR3_addr == UINT64_MAX) {
           assert(!CR3_set); // This should be called only once when the process
                             // is starting
-          handle_page_fault(L5, &RQ.entry[index],
-                            6); // 6 means first level is also not there
+          handle_page_fault(L4, &RQ.entry[index],
+                            5); // 5 means first level is also not there
           CR3_set = true;
 
-          PAGE_TABLE_PAGE *curr_page = L5;
+          PAGE_TABLE_PAGE *curr_page = L4;
           uint64_t next_level_base_addr = UINT64_MAX;
-          for (int i = 5; i > 1; i--) // Fill MMU caches
+          for (int i = 4; i > 1; i--) // Fill MMU caches
           {
             uint64_t offset =
                 get_offset(RQ.entry[index].full_virtual_address, i);
@@ -362,10 +362,10 @@ void PAGE_TABLE_WALKER::operate() {
             curr_page = curr_page->entry[offset];
 
             switch (i) {
-            case 5:
-              fill_mmu_cache(PSCL5, next_level_base_addr, &RQ.entry[index],
-                             IS_PSCL5);
-              break;
+            // case 5:
+            //   fill_mmu_cache(PSCL5, next_level_base_addr, &RQ.entry[index],
+            //                  IS_PSCL5);
+            //   break;
             case 4:
               fill_mmu_cache(PSCL4, next_level_base_addr, &RQ.entry[index],
                              IS_PSCL4);
@@ -401,8 +401,8 @@ void PAGE_TABLE_WALKER::operate() {
           return;
         }
         next_address = CR3_addr << LOG2_PAGE_SIZE |
-                       (get_offset(RQ.entry[index].full_addr, IS_PTL5) << 3);
-        packet.translation_level = 5;
+                       (get_offset(RQ.entry[index].full_addr, IS_PTL4) << 3);
+        packet.translation_level = 4;
       }
 
       #ifdef PTW_L1D_L2C
@@ -515,9 +515,9 @@ void PAGE_TABLE_WALKER::operate() {
              0xf000000f); // Page table is stored at this address
       assert(PQ.entry[index].full_virtual_address != 0);
 
-      uint64_t address_pscl5 =
-          check_hit(PSCL5, get_index(PQ.entry[index].full_addr, IS_PSCL5),
-                    PQ.entry[index].type);
+      // uint64_t address_pscl5 =
+      //     check_hit(PSCL5, get_index(PQ.entry[index].full_addr, IS_PSCL5),
+      //               PQ.entry[index].type);
       uint64_t address_pscl4 =
           check_hit(PSCL4, get_index(PQ.entry[index].full_addr, IS_PSCL4),
                     PQ.entry[index].type);
@@ -569,21 +569,21 @@ void PAGE_TABLE_WALKER::operate() {
         next_address = address_pscl4 << LOG2_PAGE_SIZE |
                        (get_offset(PQ.entry[index].full_addr, IS_PTL3) << 3);
         packet.translation_level = 3;
-      } else if (address_pscl5 != UINT64_MAX) {
-        next_address = address_pscl5 << LOG2_PAGE_SIZE |
-                       (get_offset(RQ.entry[index].full_addr, IS_PTL4) << 3);
-        packet.translation_level = 4;
+      // } else if (address_pscl5 != UINT64_MAX) {
+      //   next_address = address_pscl5 << LOG2_PAGE_SIZE |
+      //                  (get_offset(RQ.entry[index].full_addr, IS_PTL4) << 3);
+      //   packet.translation_level = 4;
       } else {
         if (CR3_addr == UINT64_MAX) {
           assert(!CR3_set); // This should be called only once when the process
                             // is starting
-          handle_page_fault(L5, &PQ.entry[index],
-                            6); // 6 means first level is also not there
+          handle_page_fault(L4, &PQ.entry[index],
+                            5); // 5 means first level is also not there
           CR3_set = true;
 
-          PAGE_TABLE_PAGE *curr_page = L5;
+          PAGE_TABLE_PAGE *curr_page = L4;
           uint64_t next_level_base_addr = UINT64_MAX;
-          for (int i = 5; i > 1; i--) // Fill MMU caches
+          for (int i = 4; i > 1; i--) // Fill MMU caches
           {
             uint64_t offset =
                 get_offset(PQ.entry[index].full_virtual_address, i);
@@ -595,10 +595,10 @@ void PAGE_TABLE_WALKER::operate() {
             curr_page = curr_page->entry[offset];
 
             switch (i) {
-            case 5:
-              fill_mmu_cache(PSCL5, next_level_base_addr, &PQ.entry[index],
-                             IS_PSCL5);
-              break;
+            // case 5:
+            //   fill_mmu_cache(PSCL5, next_level_base_addr, &PQ.entry[index],
+            //                  IS_PSCL5);
+            //   break;
             case 4:
               fill_mmu_cache(PSCL4, next_level_base_addr, &PQ.entry[index],
                              IS_PSCL4);
@@ -633,8 +633,8 @@ void PAGE_TABLE_WALKER::operate() {
           return;
         }
         next_address = CR3_addr << LOG2_PAGE_SIZE |
-                       (get_offset(PQ.entry[index].full_addr, IS_PTL5) << 3);
-        packet.translation_level = 5;
+                       (get_offset(PQ.entry[index].full_addr, IS_PTL4) << 3);
+        packet.translation_level = 4;
       }
 
       #ifdef PTW_L1D_L2C
@@ -720,13 +720,13 @@ uint64_t PAGE_TABLE_WALKER::handle_page_fault(PAGE_TABLE_PAGE *page,
                                               uint8_t pt_level) {
   bool page_swap = false;
 
-  if (pt_level == 6) {
+  if (pt_level == 5) {
     assert(page == NULL && CR3_addr == UINT64_MAX);
-    L5 = new PAGE_TABLE_PAGE();
+    L4 = new PAGE_TABLE_PAGE();
     CR3_addr = map_translation_page(&page_swap);
     pt_level--;
     write_translation_page(CR3_addr, packet, pt_level);
-    page = L5;
+    page = L4;
   }
 
   while (pt_level > 1) {
@@ -1017,12 +1017,12 @@ uint64_t PAGE_TABLE_WALKER::get_index(uint64_t address, uint8_t cache_type) {
 
   address = address & ((1L << 57) - 1); // Extract Last 57 bits
 
-  int shift = 12;
+  int shift = 21;
 
   switch (cache_type) {
-  case IS_PSCL5:
-    shift += 9 + 9 + 9 + 9;
-    break;
+  // case IS_PSCL5:
+  //   shift += 9 + 9 + 9 + 9;
+  //   break;
   case IS_PSCL4:
     shift += 9 + 9 + 9;
     break;
@@ -1030,7 +1030,7 @@ uint64_t PAGE_TABLE_WALKER::get_index(uint64_t address, uint8_t cache_type) {
     shift += 9 + 9;
     break;
   case IS_PSCL2:
-    shift += 9; // Most siginificant 36 bits will be used to index PSCL2
+    shift += 9; // Most siginificant 27 bits will be used to index PSCL2
     break;
   }
 
@@ -1067,12 +1067,12 @@ uint64_t PAGE_TABLE_WALKER::get_offset(uint64_t full_virtual_addr,
   full_virtual_addr =
       full_virtual_addr & ((1L << 57) - 1); // Extract Last 57 bits
 
-  int shift = 12;
+  int shift = 21;
 
   switch (pt_level) {
-  case IS_PTL5:
-    shift += 9 + 9 + 9 + 9;
-    break;
+  // case IS_PTL5:
+  //   shift += 9 + 9 + 9 + 9;
+  //   break;
   case IS_PTL4:
     shift += 9 + 9 + 9;
     break;
