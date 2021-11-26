@@ -172,7 +172,7 @@ void CACHE::handle_fill() {
     // Prefetch translation requests should be dropped in case of page fault
     if (cache_type == IS_ITLB || cache_type == IS_DTLB ||
         cache_type == IS_STLB) {
-      if (cache_type == IS_DTLB &&
+      if ((cache_type == IS_DTLB) &&
           MSHR.entry[mshr_index].type == TRANSLATION_FROM_L1D)
         assert(0);
       if (MSHR.entry[mshr_index].data == (UINT64_MAX >> LOG2_PAGE_SIZE)) {
@@ -328,8 +328,16 @@ void CACHE::handle_fill() {
             ((MSHR.entry[mshr_index].ip) >> LOG2_BLOCK_SIZE) << LOG2_BLOCK_SIZE,
             set, way, (MSHR.entry[mshr_index].type == PREFETCH) ? 1 : 0,
             ((block[set][way].ip) >> LOG2_BLOCK_SIZE) << LOG2_BLOCK_SIZE);
+            
+            // if(cache_type==IS_L1D){
+            //   way=way-(((MSHR.entry[mshr_index].full_virtual_address>>12)&1)*(4));
+            // }
+
       if (cache_type == IS_L1D) {
         // Neelu: Sending virtual fill and evicted address to L1D prefetcher.
+        if (way>=4){
+          way=way-(((MSHR.entry[mshr_index].full_virtual_address>>12)&1)*(4));
+        }
 
         uint64_t v_fill_addr, v_evicted_addr;
         map<uint64_t, uint64_t>::iterator ppage_check = inverse_table.find(
@@ -347,7 +355,6 @@ void CACHE::handle_fill() {
         /*Neelu: Note that it is not always necessary that evicted address is a
          * valid address and is present in the inverse table, hence (1) do not
          * use the assert and (2) if it is not present, assign it to zero. */
-
         ppage_check = inverse_table.find(block[set][way].address >>
                                          (LOG2_PAGE_SIZE - LOG2_BLOCK_SIZE));
         if (ppage_check != inverse_table.end()) {
@@ -1051,7 +1058,15 @@ void CACHE::handle_writeback() {
 void CACHE::handle_processed() {
   assert(cache_type == IS_L1I || cache_type == IS_L1D);
 
+  // CACHE &tlb = ooo_cpu[cpu].DTLB;
+  // CACHE &tlb2 = ooo_cpu[cpu].DSPTLB;
+  
+  // if(cache_type == IS_L1I)
+  //   tlb = ooo_cpu[cpu].ITLB;
+  
   CACHE &tlb = cache_type == IS_L1I ? ooo_cpu[cpu].ITLB : ooo_cpu[cpu].DTLB;
+
+  // CACHE &tlb2 = ooo_cpu[cpu].DSPTLB;
 
   //@Vishal: one translation is processed per cycle
   if (tlb.PROCESSED.occupancy != 0) {
@@ -1409,10 +1424,64 @@ void CACHE::handle_read() {
         (RQ.occupancy > 0)) {
       int index = RQ.head;
 
+// if(TFT[((RQ.entry[index].full_virtual_address)>>21)%16]==RQ.entry[index].full_virtual_address>>21){
+//   RQ.entry[index].issuper=1;
+// }
       // access cache
       uint32_t set = get_set(RQ.entry[index].address);
-      int way = check_hit(&RQ.entry[index]);
+      int way;
+      if(cache_type == IS_L1D){
+        uint32_t set = get_set(RQ.entry[index].address);
+  int match_way = -1;
 
+  if (NUM_SET < set) {
+    cerr << "[" << NAME << "_ERROR] " << __func__
+         << " invalid set index: " << set << " NUM_SET: " << NUM_SET;
+    cerr << " address: " << hex << RQ.entry[index].address
+         << " full_addr: " << RQ.entry[index].full_addr << dec;
+    cerr << " event: " << RQ.entry[index].event_cycle << endl;
+    assert(0);
+  }
+
+  uint64_t packet_tag;
+  if (cache_type == IS_L1I || cache_type == IS_L1D) //@Vishal: VIPT
+  {
+    assert(RQ.entry[index].full_physical_address != 0);
+    packet_tag = RQ.entry[index].full_physical_address >> LOG2_BLOCK_SIZE;
+  } else
+    packet_tag = RQ.entry[index].address;
+
+  // hit
+  uint64_t partition_bit = (RQ.entry[index].full_virtual_address & (1<<12))>>12;
+  for (uint32_t way1 = 0; way1 < NUM_WAY/2; way1++) {
+    // if (block[set][way1].valid && (block[set][way1].tag == packet_tag)) {
+      
+      if (block[set][way1].valid && (block[set][way1+partition_bit*4].tag == RQ.entry[index].full_physical_address >> LOG2_BLOCK_SIZE)) {
+        
+        match_way = way1+partition_bit*4;
+
+      DP(if (warmup_complete[RQ.entry[index].cpu]) {
+        cout << "[" << NAME << "] " << __func__
+             << " instr_id: " << RQ.entry[index].instr_id << " type: " << +packet->type
+             << hex << " addr: " << RQ.entry[index].address;
+        cout << " full_addr: " << RQ.entry[index].full_addr
+             << " tag: " << block[set][way1].tag
+             << " data: " << block[set][way1].data << dec;
+        cout << " set: " << set << " way: " << way1
+             << " lru: " << block[set][way1].lru;
+        cout << " event: " << RQ.entry[index].event_cycle
+             << " cycle: " << current_core_cycle[cpu] << endl;
+      });
+
+      break;
+
+    }
+   
+  } 
+  way=match_way;
+      }
+      else{
+      way = check_hit(&RQ.entry[index]);}
       if (way >= 0) { // read hit
 
         if (cache_type == IS_ITLB) {
