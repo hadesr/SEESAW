@@ -1,0 +1,161 @@
+
+*** ChampSim Multicore Out-of-Order Simulator ***
+
+Warmup Instructions: 10000000
+Simulation Instructions: 10000000
+Number of CPUs: 1
+LLC sets: 2048
+LLC ways: 16
+Off-chip DRAM Size: 4096 MB Channels: 1 Width: 64-bit Data Rate: 6400 MT/s
+CPU 0 runs ../traces//MIS_85B.trace.gz
+.gz
+CPU 0 Bimodal branch predictor
+BTB has LRU replacement policy
+ITLB has LRU replacement policy
+DTLB has LRU replacement policy
+STLB has LRU replacement policy
+L1I has LRU replacement policy
+L1D has LRU replacement policy
+L2C has LRU replacement policy
+LLC has LRU replacement policy
+Heartbeat CPU 0 instructions: 1000000 cycles: 348610 heartbeat IPC: 2.86854 cumulative IPC: 2.86854 (Simulation time: 0 hr 0 min 5 sec) 
+Heartbeat CPU 0 instructions: 2000002 cycles: 693180 heartbeat IPC: 2.90217 cumulative IPC: 2.88526 (Simulation time: 0 hr 0 min 11 sec) 
+Heartbeat CPU 0 instructions: 3000001 cycles: 1033714 heartbeat IPC: 2.93656 cumulative IPC: 2.90216 (Simulation time: 0 hr 0 min 17 sec) 
+Heartbeat CPU 0 instructions: 4000000 cycles: 1392473 heartbeat IPC: 2.78738 cumulative IPC: 2.87259 (Simulation time: 0 hr 0 min 22 sec) 
+Heartbeat CPU 0 instructions: 5000001 cycles: 1748946 heartbeat IPC: 2.80526 cumulative IPC: 2.85887 (Simulation time: 0 hr 0 min 27 sec) 
+Heartbeat CPU 0 instructions: 6000002 cycles: 2102622 heartbeat IPC: 2.82745 cumulative IPC: 2.85358 (Simulation time: 0 hr 0 min 34 sec) 
+Heartbeat CPU 0 instructions: 7000001 cycles: 2457499 heartbeat IPC: 2.81787 cumulative IPC: 2.84842 (Simulation time: 0 hr 0 min 40 sec) 
+Heartbeat CPU 0 instructions: 8000000 cycles: 2808555 heartbeat IPC: 2.84855 cumulative IPC: 2.84844 (Simulation time: 0 hr 0 min 47 sec) 
+Heartbeat CPU 0 instructions: 9000000 cycles: 3161142 heartbeat IPC: 2.83618 cumulative IPC: 2.84707 (Simulation time: 0 hr 0 min 54 sec) 
+Heartbeat CPU 0 instructions: 10000003 cycles: 3513252 heartbeat IPC: 2.84003 cumulative IPC: 2.84637 (Simulation time: 0 hr 1 min 0 sec) 
+
+Warmup complete CPU 0 instructions: 10000003 cycles: 3513252 (Simulation time: 0 hr 1 min 0 sec) 
+
+Heartbeat CPU 0 instructions: 11000000 cycles: 17464028 heartbeat IPC: 0.0716804 cumulative IPC: 0.0716804 (Simulation time: 0 hr 1 min 16 sec) 
+Heartbeat CPU 0 instructions: 12000000 cycles: 31487010 heartbeat IPC: 0.0713115 cumulative IPC: 0.0714955 (Simulation time: 0 hr 1 min 31 sec) 
+Heartbeat CPU 0 instructions: 13000001 cycles: 45149503 heartbeat IPC: 0.0731932 cumulative IPC: 0.0720525 (Simulation time: 0 hr 1 min 45 sec) 
+Heartbeat CPU 0 instructions: 14000001 cycles: 58933873 heartbeat IPC: 0.0725459 cumulative IPC: 0.0721753 (Simulation time: 0 hr 1 min 59 sec) 
+Heartbeat CPU 0 instructions: 15000000 cycles: 72864886 heartbeat IPC: 0.0717822 cumulative IPC: 0.0720963 (Simulation time: 0 hr 2 min 13 sec) 
+Heartbeat CPU 0 instructions: 16000001 cycles: 86731097 heartbeat IPC: 0.0721178 cumulative IPC: 0.0720999 (Simulation time: 0 hr 2 min 26 sec) 
+Heartbeat CPU 0 instructions: 17000000 cycles: 100669581 heartbeat IPC: 0.0717437 cumulative IPC: 0.0720488 (Simulation time: 0 hr 2 min 40 sec) 
+Heartbeat CPU 0 instructions: 18000000 cycles: 114815899 heartbeat IPC: 0.0706898 cumulative IPC: 0.0718761 (Simulation time: 0 hr 2 min 54 sec) 
+Heartbeat CPU 0 instructions: 19000000 cycles: 128709437 heartbeat IPC: 0.0719759 cumulative IPC: 0.0718872 (Simulation time: 0 hr 3 min 6 sec) 
+Heartbeat CPU 0 instructions: 20000000 cycles: 142231940 heartbeat IPC: 0.0739508 cumulative IPC: 0.0720883 (Simulation time: 0 hr 3 min 17 sec) 
+Finished CPU 0 instructions: 10000000 cycles: 138718690 cumulative IPC: 0.0720883 (Simulation time: 0 hr 3 min 17 sec) 
+
+ChampSim completed all CPUs
+
+Region of Interest Statistics
+
+CPU 0 cumulative IPC: 0.0720883 instructions: 10000000 cycles: 138718690
+
+Total ROB STALLS:                    5711233
+STLB MISS ROB STALLS:                 154453
+L1D  LOAD MISS ROB STALLS:            766254  Translation MISS ROB STALLS:        100031
+L2C  LOAD MISS ROB STALLS:            627867  Translation MISS ROB STALLS:         22916
+LLC  LOAD MISS ROB STALLS:            494559  Translation MISS ROB STALLS:          7043
+
+ITLB TOTAL     ACCESS:           1974061  HIT:    1974061  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+ITLB LOAD TRANSLATION ACCESS:    1974061  HIT:    1974061  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+ITLB AVERAGE MISS LATENCY:          -nan cycles
+ITLB RQ ACCESS:     2303856	FORWARD:           0	MERGED:       329795	TO_CACHE:    1974061
+
+DTLB TOTAL     ACCESS:           2547911  HIT:    1682680  MISS:     865231  HIT %:    66.0416  MISS %:    33.9584   MPKI: 86.5231
+DTLB LOAD TRANSLATION ACCESS:    2547911  HIT:    1682680  MISS:     865231  HIT %:    66.0416  MISS %:    33.9584   MPKI: 86.5231
+DTLB AVERAGE MISS LATENCY:        21.601 cycles
+DTLB RQ ACCESS:     2594812	FORWARD:           0	MERGED:        44329	TO_CACHE:    2550483
+
+STLB TOTAL     ACCESS:            865230  HIT:     582478  MISS:     282752  HIT %:    67.3206  MISS %:    32.6794   MPKI: 28.2752
+STLB LOAD TRANSLATION ACCESS:     865230  HIT:     582478  MISS:     282752  HIT %:    67.3206  MISS %:    32.6794   MPKI: 28.2752
+STLB AVERAGE MISS LATENCY:         38.17 cycles
+STLB RQ ACCESS:      865230	FORWARD:           0	MERGED:            0	TO_CACHE:     865230
+
+PSCL5 TOTAL     ACCESS:            282752  HIT:     282752  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+PSCL5 LOAD TRANSLATION ACCESS:     282752  HIT:     282752  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+
+PSCL4 TOTAL     ACCESS:            282752  HIT:     282752  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+PSCL4 LOAD TRANSLATION ACCESS:     282752  HIT:     282752  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+
+PSCL3 TOTAL     ACCESS:            282752  HIT:     282752  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+PSCL3 LOAD TRANSLATION ACCESS:     282752  HIT:     282752  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+
+PSCL2 TOTAL     ACCESS:            282752  HIT:     280049  MISS:       2703  HIT %:     99.044  MISS %:   0.955961   MPKI: 0.2703
+PSCL2 LOAD TRANSLATION ACCESS:     282752  HIT:     280049  MISS:       2703  HIT %:     99.044  MISS %:   0.955961   MPKI: 0.2703
+
+L1D TOTAL     ACCESS:           2846458  HIT:    1628133  MISS:    1218325  HIT %:    57.1986  MISS %:    42.8014   MPKI: 121.832  USED:     228123  UNUSED:     990202
+L1D LOAD      ACCESS:           2525044  HIT:    1480641  MISS:    1044403  HIT %:    58.6382  MISS %:    41.3618   MPKI: 104.44  USED:     178575  UNUSED:     865793
+L1D RFO       ACCESS:             35962  HIT:      35962  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+L1D LOAD TRANSLATION ACCESS:     285452  HIT:     111530  MISS:     173922  HIT %:    39.0714  MISS %:    60.9286   MPKI: 17.3922  USED:      49548  UNUSED:     124409
+L1D PTL1 TRANSLATION ACCESS:     282749  HIT:     110684  MISS:     172065  HIT %:    39.1457  MISS %:    60.8543   MPKI: 17.2065
+L1D PTL2 TRANSLATION ACCESS:       2703  HIT:        846  MISS:       1857  HIT %:    31.2986  MISS %:    68.7014   MPKI: 0.1857
+L1D PTL3 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+L1D PTL4 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+L1D PTL5 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+L1D TOTAL EVICTIONS:            1218325  TRANSLATION EVICTIONS:     173957  TRANSLATION EVICTING TRANSALTION:      35412  TRANSLATION EVICTING LOAD:     138510  LOAD EVICTING TRANSALTION:     138545  LOAD EVICTING LOAD:      905858
+L1D AVERAGE MISS LATENCY:       125.468 cycles  AVERAGE LOAD MISS LATENCY:       141.386 cycles  AVERAGE LOAD TRANSLATION MISS LATENCY:       29.8812 cycles
+L1D RQ ACCESS:     3192280	FORWARD:           0	MERGED:       347978	TO_CACHE:    2844302
+L1D WQ ACCESS:       35962	FORWARD:           0	MERGED:            0	TO_CACHE:      35962
+
+L1I TOTAL     ACCESS:           2303856  HIT:    2303856  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+L1I LOAD      ACCESS:           2303856  HIT:    2303856  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+L1I AVERAGE MISS LATENCY:          -nan cycles
+L1I RQ ACCESS:     2999394	FORWARD:           0	MERGED:       695538	TO_CACHE:    2303856
+
+L2C TOTAL     ACCESS:           1254112  HIT:     418401  MISS:     835711  HIT %:    33.3623  MISS %:    66.6377   MPKI: 83.5711  USED:     131772  UNUSED:     703939
+L2C LOAD      ACCESS:           1044402  HIT:     241971  MISS:     802431  HIT %:    23.1684  MISS %:    76.8316   MPKI: 80.2431  USED:     114115  UNUSED:     688277
+L2C WRITEBACK ACCESS:             35788  HIT:      35788  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+L2C LOAD TRANSLATION ACCESS:     173922  HIT:     140642  MISS:      33280  HIT %:     80.865  MISS %:     19.135   MPKI: 3.328  USED:      17657  UNUSED:      15662
+L2C PTL1 TRANSLATION ACCESS:     172065  HIT:     138996  MISS:      33069  HIT %:    80.7811  MISS %:    19.2189   MPKI: 3.3069
+L2C PTL2 TRANSLATION ACCESS:       1857  HIT:       1646  MISS:        211  HIT %:    88.6376  MISS %:    11.3624   MPKI: 0.0211
+L2C PTL3 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+L2C PTL4 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+L2C PTL5 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+L2C TOTAL EVICTIONS:             835711  TRANSLATION EVICTIONS:      33319  TRANSLATION EVICTING TRANSALTION:       1156  TRANSLATION EVICTING LOAD:      32124  LOAD EVICTING TRANSALTION:      32163  LOAD EVICTING LOAD:      770268
+L2C AVERAGE MISS LATENCY:       160.944 cycles  AVERAGE LOAD MISS LATENCY:       164.402 cycles  AVERAGE LOAD TRANSLATION MISS LATENCY:       77.5597 cycles
+L2C RQ ACCESS:     1218326	FORWARD:           0	MERGED:            0	TO_CACHE:    1218326
+L2C WQ ACCESS:       35788	FORWARD:           0	MERGED:            0	TO_CACHE:      35788
+
+LLC TOTAL     ACCESS:            871062  HIT:     260105  MISS:     610957  HIT %:    29.8607  MISS %:    70.1393   MPKI: 61.0957  USED:     113741  UNUSED:     497216
+LLC LOAD      ACCESS:            802430  HIT:     200529  MISS:     601901  HIT %:    24.9902  MISS %:    75.0098   MPKI: 60.1901  USED:     108803  UNUSED:     493089
+LLC WRITEBACK ACCESS:             35352  HIT:      35351  MISS:          1  HIT %:    99.9972  MISS %: 0.00282869   MPKI: 0.0001
+LLC LOAD TRANSLATION ACCESS:      33280  HIT:      24225  MISS:       9055  HIT %:    72.7915  MISS %:    27.2085   MPKI: 0.9055  USED:       4938  UNUSED:       4126
+LLC PTL1 TRANSLATION ACCESS:      33069  HIT:      24065  MISS:       9004  HIT %:    72.7721  MISS %:    27.2279   MPKI: 0.9004
+LLC PTL2 TRANSLATION ACCESS:        211  HIT:        160  MISS:         51  HIT %:    75.8294  MISS %:    24.1706   MPKI: 0.0051
+LLC PTL3 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+LLC PTL4 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+LLC PTL5 TRANSLATION ACCESS:          0  HIT:          0  MISS:          0  HIT %:       -nan  MISS %:       -nan   MPKI: 0
+LLC TOTAL EVICTIONS:             610957  TRANSLATION EVICTIONS:       9064  TRANSLATION EVICTING TRANSALTION:        118  TRANSLATION EVICTING LOAD:       8937  LOAD EVICTING TRANSALTION:       8946  LOAD EVICTING LOAD:      592954
+LLC AVERAGE MISS LATENCY:       179.062 cycles  AVERAGE LOAD MISS LATENCY:       179.126 cycles  AVERAGE LOAD TRANSLATION MISS LATENCY:       174.797 cycles
+LLC RQ ACCESS:      835712	FORWARD:           0	MERGED:            0	TO_CACHE:     835712
+LLC WQ ACCESS:       35352	FORWARD:           0	MERGED:            0	TO_CACHE:      35352
+
+
+RAW hits: 4
+Loads Generated: 2906831
+Loads sent to L1D: 2906828
+Stores Generated: 35962
+Stores sent to L1D: 35962
+Major fault: 0 Minor fault: 16702
+Allocated PAGES: 16702
+
+DRAM Statistics
+ CHANNEL 0
+ RQ ROW_BUFFER_HIT:      27007  ROW_BUFFER_MISS:     583949
+ DBUS_CONGESTED:          4
+ WQ ROW_BUFFER_HIT:      14582  ROW_BUFFER_MISS:      19828  FULL:          0
+
+ AVG_CONGESTED_CYCLE: 4
+
+CPU 0 Branch Prediction Accuracy: 76.6559% MPKI: 74.4811 Average ROB Occupancy at Mispredict: 2.55812
+Branch types
+NOT_BRANCH: 6809060 68.0906%
+BRANCH_DIRECT_JUMP: 203198 2.03198%
+BRANCH_INDIRECT: 0 0%
+BRANCH_CONDITIONAL: 2987376 29.8738%
+BRANCH_DIRECT_CALL: 0 0%
+BRANCH_INDIRECT_CALL: 0 0%
+BRANCH_RETURN: 0 0%
+BRANCH_OTHER: 0 0%
+
+DRAM PAGES: 1048576
+Allocated PAGES: 16702
