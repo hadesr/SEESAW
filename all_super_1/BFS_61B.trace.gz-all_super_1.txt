@@ -65,9 +65,9 @@ DTLB LOAD TRANSLATION ACCESS:    2835265  HIT:    2835243  MISS:         22  HIT
 DTLB AVERAGE MISS LATENCY:       291.364 cycles
 DTLB RQ ACCESS:     2928820	FORWARD:           0	MERGED:        93554	TO_CACHE:    2835266
 
-STLB TOTAL     ACCESS:                22  HIT:          0  MISS:         22  HIT %:          0  MISS %:        100   MPKI: 0.0022
-STLB LOAD TRANSLATION ACCESS:         22  HIT:          0  MISS:         22  HIT %:          0  MISS %:        100   MPKI: 0.0022
-STLB AVERAGE MISS LATENCY:       282.364 cycles
+STLB TOTAL     ACCESS:                22  HIT:         22  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+STLB LOAD TRANSLATION ACCESS:         22  HIT:         22  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
+STLB AVERAGE MISS LATENCY:          -nan cycles
 STLB RQ ACCESS:          22	FORWARD:           0	MERGED:            0	TO_CACHE:         22
 
 PSCL4 TOTAL     ACCESS:                22  HIT:         22  MISS:          0  HIT %:        100  MISS %:          0   MPKI: 0
