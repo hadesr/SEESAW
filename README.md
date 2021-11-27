@@ -49,8 +49,8 @@ ${OPTION}: extra option for "-low_bandwidth" (src/main.cc)
 Simulation results will be stored under "results_${N_SIM}M" as a form of "${TRACE}-${BINARY}-${OPTION}.txt".<br> 
 
 ## Contributors
-* [@akshay-121](https://github.com/akshay-121)
-* [@hadesr](https://github.com/hadesr)
-* [@kamran0201](https://github.com/kamran0201)
-* [@015itachiucchiha](https://github.com/015itachiucchiha)
-* [@Shambhavi-Pardhi](https://github.com/Shambhavi-Pardhi)
+* [@akshay-121](https://github.com/akshay-121) -190050011
+* [@hadesr](https://github.com/hadesr) -190050101
+* [@kamran0201](https://github.com/kamran0201) -190050066
+* [@015itachiucchiha](https://github.com/015itachiucchiha) -190050105
+* [@Shambhavi-Pardhi](https://github.com/Shambhavi-Pardhi) -190050112
