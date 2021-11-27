@@ -3,6 +3,7 @@
   <p> ChampSim is a trace-based simulator for a microarchitecture study. You can sign up to the public mailing list by sending an empty mail to champsim+subscribe@googlegroups.com. Traces for the 3rd Data Prefetching Championship (DPC-3) can be found from here (https://dpc3.compas.cs.stonybrook.edu/?SW_IS). A set of traces used for the 2nd Cache Replacement Championship (CRC-2) can be found from this link. (http://bit.ly/2t2nkUj) <p>
 </p>
 # Algorithm 
+
 Traditional VIPT uses 4kB pages which has only 12 bit offset, in a 64 byte line cache only 6 bits are left for set indexing. Thus, restricting cache to contain almost 64 sets. Inicreasing cache size increases associativity which increases latency and energy requirement. Hence, to achieve low latencies and reduce energy consumption, we are using superpages of 2MB which most processors use today.  
 
 # Clone ChampSim repository
