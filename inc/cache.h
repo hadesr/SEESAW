@@ -18,6 +18,7 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 #define IS_ITLB 0
 #define IS_DTLB 1
 #define IS_STLB 2
+#define IS_DSPTLB 19
 #define IS_L1I 3
 #define IS_L1D 4
 #define IS_L2C 5
@@ -56,6 +57,17 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 #define DTLB_PQ_SIZE 8
 #define DTLB_MSHR_SIZE 8
 #define DTLB_LATENCY 1
+
+// SUPER PAGE DATA TLB
+#define DSPTLB_SET 16
+#define DSPTLB_WAY 4
+#define DSPTLB_RQ_SIZE 16
+#define DSPTLB_WQ_SIZE 16
+#define DSPTLB_PQ_SIZE 8
+#define DSPTLB_MSHR_SIZE 8
+#define DSPTLB_LATENCY 1
+#define VA_SUPER_PAGE_CUT_OFF (1<<20)
+#define TFT_SIZE 16
 
 //@Vasudha: Coding DTLB prefetch buffer
 #ifdef PUSH_DTLB_PB
@@ -494,37 +506,37 @@ public:
                                 uint32_t metadata_in);
 
   uint32_t get_set(uint64_t address), get_way(uint64_t address, uint32_t set),
-
+  //one more argument of partition bit added to find_victim function, for L1D cache it will be non negative else negative for other caches
       (CACHE::*find_victim)(uint32_t cpu, uint64_t instr_id, uint32_t set,
                             const BLOCK *current_set, uint64_t ip,
-                            uint64_t full_addr, uint32_t type),
+                            uint64_t full_addr, uint32_t type, int partition),
       base_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                        const BLOCK *current_set, uint64_t ip,
-                       uint64_t full_addr, uint32_t type),
+                       uint64_t full_addr, uint32_t type, int partition),
       btb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                       const BLOCK *current_set, uint64_t ip, uint64_t full_addr,
-                      uint32_t type),
+                      uint32_t type, int partition),
       l1i_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                       const BLOCK *current_set, uint64_t ip, uint64_t full_addr,
-                      uint32_t type),
+                      uint32_t type, int partition),
       l1d_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                       const BLOCK *current_set, uint64_t ip, uint64_t full_addr,
-                      uint32_t type),
+                      uint32_t type, int partition),
       l2c_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                       const BLOCK *current_set, uint64_t ip, uint64_t full_addr,
-                      uint32_t type),
+                      uint32_t type, int partition),
       llc_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                       const BLOCK *current_set, uint64_t ip, uint64_t full_addr,
-                      uint32_t type),
+                      uint32_t type, int partition),
       itlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                        const BLOCK *current_set, uint64_t ip,
-                       uint64_t full_addr, uint32_t type),
+                       uint64_t full_addr, uint32_t type, int partition),
       dtlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                        const BLOCK *current_set, uint64_t ip,
-                       uint64_t full_addr, uint32_t type),
+                       uint64_t full_addr, uint32_t type, int partition),
       stlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                        const BLOCK *current_set, uint64_t ip,
-                       uint64_t full_addr, uint32_t type),
+                       uint64_t full_addr, uint32_t type, int partition),
 
       lru_victim(uint32_t cpu, uint64_t instr_id, uint32_t set,
                  const BLOCK *current_set, uint64_t ip, uint64_t full_addr,

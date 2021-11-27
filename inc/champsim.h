@@ -78,6 +78,7 @@
 #define DRAM_IO_FREQ 6400 // 1600	Neelu: Changed
 #define PAGE_SIZE (1 << 21)
 #define LOG2_PAGE_SIZE 21
+#define LOG2_SUPER_PAGE_SIZE 21
 
 // CACHE
 #define BLOCK_SIZE 64
@@ -129,6 +130,7 @@ extern uint8_t warmup_complete[NUM_CPUS], simulation_complete[NUM_CPUS],
 
 extern uint64_t current_core_cycle[NUM_CPUS], stall_cycle[NUM_CPUS],
     last_drc_read_mode, last_drc_write_mode, drc_blocks;
+    extern uint64_t TFT[16];
 
 extern queue<uint64_t> page_queue;
 extern map<uint64_t, uint64_t> inverse_table, recent_page, unique_cl[NUM_CPUS];

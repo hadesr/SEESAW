@@ -8,6 +8,7 @@
 // out-of-order core
 O3_CPU ooo_cpu[NUM_CPUS];
 uint64_t current_core_cycle[NUM_CPUS], stall_cycle[NUM_CPUS];
+uint64_t TFT[16];
 uint32_t SCHEDULING_LATENCY = 0, EXEC_LATENCY = 0, DECODE_LATENCY = 0;
 uint8_t TRACE_ENDS_STOP = 0;
 int asid_index = 0;
@@ -664,7 +665,7 @@ void O3_CPU::fill_btb(uint64_t trigger, uint64_t target) {
 
   if (btb_way == BTB_WAY) {
     btb_way = (BTB.*BTB.find_victim)(cpu, 0, btb_set, BTB.block[btb_set],
-                                     trigger, trigger, 0);
+                                     trigger, trigger, 0, -1);
     (BTB.*BTB.update_replacement_state)(cpu, btb_set, btb_way, trigger, trigger,
                                         BTB.block[btb_set][btb_way].address, 0,
                                         0);

@@ -660,6 +660,7 @@ void finish_warmup() {
     ooo_cpu[i].ITLB.LATENCY = ITLB_LATENCY;
     ooo_cpu[i].DTLB.LATENCY = DTLB_LATENCY;
     ooo_cpu[i].STLB.LATENCY = STLB_LATENCY;
+    ooo_cpu[i].DSPTLB.LATENCY = DSPTLB_LATENCY;
     ooo_cpu[i].L1I.LATENCY = L1I_LATENCY;
     ooo_cpu[i].L1D.LATENCY = L1D_LATENCY;
     ooo_cpu[i].L2C.LATENCY = L2C_LATENCY;
@@ -1187,6 +1188,28 @@ int main(int argc, char **argv) {
     ooo_cpu[i].DTLB.replacement_final_stats =
         &CACHE::dtlb_replacement_final_stats;
     (ooo_cpu[i].DTLB.*(ooo_cpu[i].DTLB.initialize_replacement))();
+
+    // DSP TLB
+
+    ooo_cpu[i].DSPTLB.cpu = i;
+    ooo_cpu[i].DSPTLB.cache_type = IS_DSPTLB;
+    ooo_cpu[i].DSPTLB.MAX_READ =
+        (2 > MAX_READ_PER_CYCLE) ? MAX_READ_PER_CYCLE : 2;
+    ooo_cpu[i].DSPTLB.fill_level = FILL_L1;
+    ooo_cpu[i].DSPTLB.extra_interface = &ooo_cpu[i].L1D;
+    ooo_cpu[i].DSPTLB.lower_level = &ooo_cpu[i].STLB;
+    ooo_cpu[i].DSPTLB.dtlb_prefetcher_initialize(); /// DTLB prefetcher
+
+    ooo_cpu[i].DSPTLB.initialize_replacement =
+        &CACHE::dtlb_initialize_replacement; /// DTLB replacement
+    ooo_cpu[i].DSPTLB.update_replacement_state =
+        &CACHE::dtlb_update_replacement_state;                /// DTLB replacement
+    ooo_cpu[i].DSPTLB.find_victim = &CACHE::dtlb_find_victim; /// DTLB finding victim
+    ooo_cpu[i].DSPTLB.replacement_final_stats =
+        &CACHE::dtlb_replacement_final_stats;                        /// DTLB final states
+    (ooo_cpu[i].DSPTLB.*(ooo_cpu[i].DTLB.initialize_replacement))(); /// DTLB init replacement
+
+    /////
 
     ooo_cpu[i].STLB.cpu = i;
     ooo_cpu[i].STLB.cache_type = IS_STLB;

@@ -75,9 +75,11 @@ public:
       translated, fetched, prefetched, drc_tag_read,
       critical_ip_flag; // Neelu: Adding to indicate that current packet's ip
                         // has been identified as critical.
+  int issuper;// issuper to keep track of whether page is super page or not
 
   int fill_level, pf_origin_level, rob_signal, rob_index, producer, delta,
       depth, signature, confidence, late_pref;
+  int base_or_super;
 
   uint32_t pf_metadata;
 
@@ -120,6 +122,7 @@ public:
     tlb_access = 0;
     scheduled = 0;
     translated = 0;
+    issuper=0;
     fetched = 0;
     prefetched = 0;
     drc_tag_read = 0;

@@ -1,5 +1,6 @@
 #include "cache.h"
 
+// removed set and way for 5th level and updated set and way for other levels
 // #define PSCL5_SET 1
 // #define PSCL5_WAY 2
 
@@ -72,6 +73,7 @@ public:
       MSHR{NAME + "_MSHR", PTW_MSHR_SIZE},    // MSHR
       PQ{NAME + "_PQ", PTW_PQ_SIZE};          // PQ
 
+// removed 1 cache level since superpages will have one cache level less
   // CACHE PSCL5{"PSCL5", PSCL5_SET, PSCL5_WAY, PSCL5_SET *PSCL5_WAY,
   //             0,       0,         0,         1}, // Translation from L5->L4
   CACHE PSCL4{"PSCL4", PSCL4_SET, PSCL4_WAY, PSCL4_SET *PSCL4_WAY,
@@ -81,6 +83,7 @@ public:
       PSCL2{"PSCL2", PSCL2_SET, PSCL2_WAY, PSCL2_SET *PSCL2_WAY,
             0,       0,         0,         1}; // Translation from L4->L1
 
+  // defined L4 for superpages
   PAGE_TABLE_PAGE *L4; // CR3 register points to the base of this page.
   uint64_t CR3_addr;   // This address will not have page offset bits.
   bool CR3_set;
@@ -90,10 +93,11 @@ public:
 
     assert(LOG2_PAGE_SIZE ==
            21); //@Vishal: Translation pages are also using this variable, dont
-                //change it, or keep it 12 if changing.
+                //change it, or keep it 21 if changing.
 
     CR3_addr = UINT64_MAX;
     CR3_set = false;
+    // L4 set to null for superpages
     L4 = NULL;
     rq_full = 0;
 
