@@ -7,7 +7,7 @@
 
 Traditional VIPT uses 4kB pages which has only 12 bit offset, in a 64 byte line cache only 6 bits are left for set indexing. Thus, restricting cache to contain almost 64 sets. Inicreasing cache size increases associativity which increases latency and energy requirement. Hence, to achieve low latencies and reduce energy consumption, we are using superpages of 2MB which most processors use today. Using only superpages does not decrease latency much, but using it with base page and using partitioning of set into 2 partitions, we can decrease latency of superpage access to half of base page latency. 
 
-## Run SEESAW
+## Build champsim
 ```
 git clone https://github.com/hadesr/SEESAW.git
 ```
@@ -28,6 +28,7 @@ $ cd scripts
 
 $ ./download_dpc3_traces.sh
 ```
+keep traces in directory ```traces``` outside the ```SEESAW``` directory
 
 ## Run simulation
 
